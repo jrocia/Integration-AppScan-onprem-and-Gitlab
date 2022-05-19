@@ -1,6 +1,5 @@
 write-host "======== Step 5 - Converting ASE XML to Gitlab JSON ========"
-Expand-Archive .\scan_report.zip
-cd .\scan_report\
+Expand-Archive .\scan_report.zip -DestinationPath .\
 $header="{`"version`":`"14.0.4`",`"vulnerabilities`":[";
 echo $header | Out-File -Append -NonewLine .\gl-dast-report.json;
 $files=$(Get-Item -Path *.xml);
