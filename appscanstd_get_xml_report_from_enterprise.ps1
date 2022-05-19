@@ -12,3 +12,4 @@ $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
 sleep 120;
 Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/issues/reports/$reportId" -SkipCertificateCheck -OutFile scan_report.zip -PassThru;
+write-host "======== Step 4 finished ========"
