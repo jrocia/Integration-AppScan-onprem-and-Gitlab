@@ -1,4 +1,5 @@
 write-host "======== Step 6 - Checking Security Gate ========"
+cd ..
 "[XML]$xml = Get-Content $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID-sevsec.xml"
 $highIssues = $xml.XmlReport.Summary.Hosts.Host.TotalHighSeverityIssues
 $mediumIssues = $xml.XmlReport.Summary.Hosts.Host.TotalMediumSeverityIssues
