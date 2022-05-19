@@ -1,1 +1,2 @@
 echo "teste"
+echo $aseHostname
