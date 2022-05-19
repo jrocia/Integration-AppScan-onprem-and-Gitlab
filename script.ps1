@@ -1,2 +1,2 @@
 echo "teste"
-echo "o asehostname e %aseHostname%"
+echo "o asehostname e ${aseHostname}"
