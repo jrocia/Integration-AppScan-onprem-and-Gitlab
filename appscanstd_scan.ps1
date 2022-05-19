@@ -7,3 +7,4 @@ else{
   echo "There is a manual explorer file $manualExplore";
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec /mef $manualExplore /to
   }
+write-host "======== Step 1 finished ========"
