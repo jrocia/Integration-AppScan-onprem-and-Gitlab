@@ -1,2 +1,2 @@
 echo "teste"
-echo $aseHostname
+echo "o asehostname e $aseHostname"
