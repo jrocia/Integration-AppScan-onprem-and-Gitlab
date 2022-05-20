@@ -13,11 +13,11 @@ ForEach ($file in $files){
     $nameMessageDescriptionCode=$xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref;
     $nameMessageDescriptionValue=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).name.Replace('"','');
     $urlLocation=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value.Replace('\','\\');
-    $paramElement=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[36].value.Replace('"','');
-    $path=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[41].value.Replace('\','\\');
+    $paramElement=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[34].value.Replace('"','');
+    $path=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[39].value.Replace('\','\\');
     $sevValue=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[9].value.Replace('Information','Info').Replace('Use CVSS','Unknown');
     $issueReason=$xml.'xml-report'.'issue-group'.item[$i].'variant-group'.item.reasoning.Replace('"','');
-    $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute.value[4])"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute.value[27])";
+    $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
     $appscanId=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value;
     $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"dast`",`"name`":`"$nameMessageDescriptionValue`",`"message`":`"$nameMessageDescriptionValue in $path`",`"description`":`"$issueReason`",`"cve`":`"$cveValue`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_standard`",`"name`":`"HCL AppScan Standard`"},`"location`":{`"param`":`"$paramElement`",`"method`":`"$paramElement->Appscan_Report_Id_$appscanId`",`"hostname`":`"$urlLocation`"},`"identifiers`":[{`"type`":`"cwe`",`"name`":`"CWE-699`",`"value`":`"699`",`"url`":`"https://cwe.mitre.org/data/definitions/699.html`"},{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"HCL AppScan Enterprise How to Fix Session ($nameMessageDescriptionCode)`",`"value`":`"appscan_standard`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"}]}," | Out-File -Append -NonewLine .\gl-dast-report.json;
   }
