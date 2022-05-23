@@ -1,4 +1,4 @@
-write-host "======== Step 3 - Publishing Assessment ========"
+write-host "======== Step: Publishing Assessment in ASE ========"
 AppScanCMD.exe /r /b $scanFile /rt rc_ase /aan $aseAppName > scanName_var.txt
 
 $outputContent=Get-Content .\scanName_var.txt
