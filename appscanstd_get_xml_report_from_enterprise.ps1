@@ -1,7 +1,7 @@
 write-host "======== Step: Requesting and Exporting XML from ASE ========"
 # Input variable: $scanName, $aseHostname, $aseApiKeyId, $aseApiKeySecret
 
-$outputContent=Get-Content .\scanName_var.txt
+$outputContent=(Get-Content .\scanName_var.txt).Replace("`0","")
 if ($outputContent -match "Enterprise"){
   $scanName=$outputContent.Replace("`0","") | Select-String -Pattern "AppScan Enterprise job '(.*)'" | % {$_.Matches.Groups[1].Value}
   }
