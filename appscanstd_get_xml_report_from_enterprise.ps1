@@ -6,7 +6,7 @@ if ($outputContent -match "Enterprise"){
   $scanNameASE=$outputContent.Replace("`0","") | Select-String -Pattern "AppScan Enterprise job '(.*)'" | % {$_.Matches.Groups[1].Value};
   }
 else{
-  $scanNameASE=Get-Content .\scanName_var.txt
+  $scanNameASE=(Get-Content .\scanName_var.txt);
   $jobIdASE=(Get-Content .\jobId_var.txt);
   $scanName="$scanNameASE ($jobIdASE)"
   }
