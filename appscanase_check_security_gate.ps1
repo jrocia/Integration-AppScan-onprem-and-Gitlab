@@ -1,11 +1,16 @@
 write-host "======== Step: Checking Security Gate ========"
-cd..
-[XML]$xml = Get-Content *-sevsec.xml
-$highIssues = $xml.XmlReport.Summary.Hosts.Host.TotalHighSeverityIssues
-$mediumIssues = $xml.XmlReport.Summary.Hosts.Host.TotalMediumSeverityIssues
-$lowIssues = $xml.XmlReport.Summary.Hosts.Host.TotalLowSeverityIssues
-$infoIssues = $xml.XmlReport.Summary.Hosts.Host.TotalInformationalIssues
-$totalIssues = $xml.XmlReport.Summary.Hosts.Host.Total
+
+$sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
+
+$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
+$session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
+$vulnSummary=$((Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}-Uri "https://$aseHostname`:9443/ase/api/summaries/issues_v2?query=scanname%3D$scanName%20($jobId)&group=Severity" -SkipCertificateCheck).content | ConvertFrom-json)
+
+$highIssues = $vulnSummary.numMatch[0]
+$mediumIssues = $vulnSummary.numMatch[1]
+$lowIssues = $vulnSummary.numMatch[2]
+$infoIssues = $vulnSummary.numMatch[3]
+$totalIssues = $vulnSummary.numMatch[0]+$vulnSummary.numMatch[1]+$vulnSummary.numMatch[2]+$vulnSummary.numMatch[3]
 
 write-host "There is $highIssues high issues, $mediumIssues medium issues, $lowIssues low issues and $infoIssues informational issues."
 write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw severity."
