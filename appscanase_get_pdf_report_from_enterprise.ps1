@@ -1,4 +1,4 @@
-write-host "======== Step: Requesting and Exporting XML from ASE ========"
+write-host "======== Step: Requesting and Exporting PDF from ASE ========"
 # Input variable: $scanName, $aseHostname, $aseApiKeyId, $aseApiKeySecret
 
 $outputContent=(Get-Content .\scanName_var.txt).Replace("`0","")
