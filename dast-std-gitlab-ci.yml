@@ -1,0 +1,30 @@
+variables:
+  url: https://www.abcd.com
+  scanFile: $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID.scan
+  reportXMLsevSec: $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID-sevsec.xml
+  reportPDFFile: $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID.pdf
+  loginDastConfig: $CI_PROJECT_DIR\dast.login
+  manualExploreDastConfig: $CI_PROJECT_DIR\manualexplore.exd
+  sevSecGw: highIssues
+  maxIssuesAllowed: 10
+
+stages:
+  - scan-dast
+
+scan-dast-job:
+  stage: scan-dast
+  script:
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_scan.ps1 -OutFile appscanstd_scan.ps1
+    - .\appscanstd_scan.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_generate_pdf_report.ps1 -OutFile appscanstd_generate_pdf_report.ps1
+    - .\appscanstd_generate_pdf_report.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_check_security_gate.ps1 -OutFile appscanstd_check_security_gate.ps1
+    - .\appscanstd_check_security_gate.ps1
+
+  artifacts:
+    when: always
+    paths:
+      - "*.pdf"
