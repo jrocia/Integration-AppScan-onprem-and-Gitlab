@@ -23,7 +23,7 @@ sleep 120;
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
-Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/issues/reports/$reportId" -SkipCertificateCheck -OutFile scan_report_pdf.zip -PassThru;
+Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/issues/reports/$reportId" -SkipCertificateCheck -OutFile scan_report_pdf.zip -PassThru | Out-Null;
 
 Expand-Archive .\scan_report_pdf.zip -DestinationPath .\
 
