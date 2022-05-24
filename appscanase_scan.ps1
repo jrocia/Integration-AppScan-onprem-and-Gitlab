@@ -1,4 +1,4 @@
-
+write-host "======== Step: Running scan in $url ========"
 $sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
@@ -19,7 +19,7 @@ write-host "The JobId was created, its name is $jobId and its located in ASE fol
  
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
-Invoke-WebRequest -Method "POST" -WebSession $session -Headers @{"asc_xsrf_token"="$sessionId" ; "Accept"="application/json"} -ContentType "application/json" -Body "{`"scantNodeXpath`":`"StartingUrl`",`"scantNodeNewValue`":`"$url`"}" -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatescant" -SkipCertificateCheck;
+Invoke-WebRequest -Method "POST" -WebSession $session -Headers @{"asc_xsrf_token"="$sessionId" ; "Accept"="application/json"} -ContentType "application/json" -Body "{`"scantNodeXpath`":`"StartingUrl`",`"scantNodeNewValue`":`"$url`"}" -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatescant" -SkipCertificateCheck | Out-Null;
 write-host "The URL Target was updated in Job Id. It was updated to $url";
 
 if ([System.IO.File]::Exists($loginDastConfig)){
@@ -46,7 +46,7 @@ write-host "The Etag is $eTag. It is used to verify that is jobs state has not b
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
-Invoke-WebRequest -Method "POST" -WebSession $session -Headers @{"asc_xsrf_token"="$sessionId" ; "Accept"="application/json" ; "If-Match"="$eTag"} -ContentType "application/json" -Body "{`"type`":`"run`"}" -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/actions?isIncremental=false&isRetest=false&basejobId=-1" -SkipCertificateCheck;
+Invoke-WebRequest -Method "POST" -WebSession $session -Headers @{"asc_xsrf_token"="$sessionId" ; "Accept"="application/json" ; "If-Match"="$eTag"} -ContentType "application/json" -Body "{`"type`":`"run`"}" -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/actions?isIncremental=false&isRetest=false&basejobId=-1" -SkipCertificateCheck | Out-Null;
 sleep 60;
     
 $scanStatus="Running";
