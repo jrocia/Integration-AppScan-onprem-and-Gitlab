@@ -1,0 +1,47 @@
+variables:
+  url: https://abcd.com
+  scanFile: $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID.scan
+  reportXMLsevSec: $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID-sevsec.xml
+  reportPDFFile: $CI_PROJECT_DIR\$CI_PROJECT_NAME-$CI_JOB_ID.pdf
+  loginDastConfig: $CI_PROJECT_DIR\dast.login
+  manualExploreDastConfig: $CI_PROJECT_DIR\manualexplore.exd
+  aseAppName: $CI_PROJECT_NAME
+  aseHostname: xxxxxxxxxxxxx
+  aseApiKeyId: xxxxxxxxxxxxx
+  aseApiKeySecret: xxxxxxxxxxxxx
+  sevSecGw: highIssues
+  maxIssuesAllowed: 10
+
+stages:
+  - scan-dast
+
+scan-dast-job:
+  stage: scan-dast
+  script:
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_create_application_ase.ps1 -OutFile appscanase_create_application_ase.ps1
+    - .\appscanase_create_application_ase.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_scan.ps1 -OutFile appscanstd_scan.ps1
+    - .\appscanstd_scan.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_generate_pdf_report.ps1 -OutFile appscanstd_generate_pdf_report.ps1
+    - .\appscanstd_generate_pdf_report.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_publish_assessment_to_enterprise.ps1 -OutFile appscanstd_publish_assessment_to_enterprise.ps1
+    - .\appscanstd_publish_assessment_to_enterprise.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_get_xml_report_from_enterprise.ps1 -OutFile appscanase_get_xml_report_from_enterprise.ps1
+    - .\appscanase_get_xml_report_from_enterprise.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_convert_ase_xml_to_gitlab_json.ps1 -OutFile appscanase_convert_ase_xml_to_gitlab_json.ps1
+    - .\appscanase_convert_ase_xml_to_gitlab_json.ps1
+
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_check_security_gate.ps1 -OutFile appscanstd_check_security_gate.ps1
+    - .\appscanstd_check_security_gate.ps1
+
+  artifacts:
+    when: always
+    reports:
+      dast: .\scan_report\gl-dast-report.json
+    paths:
+      - "*.pdf"
