@@ -3,7 +3,8 @@ write-host "======== Step: Requesting and Exporting XML from ASE ========"
 
 $outputContent=(Get-Content .\scanName_var.txt).Replace("`0","")
 if ($outputContent -match "Enterprise"){
-  $scanNameASE=$outputContent.Replace("`0","") | Select-String -Pattern "AppScan Enterprise job '(.*)'" | % {$_.Matches.Groups[1].Value};
+  $scanNameASE=$($outputContent | Select-String -Pattern "AppScan Enterprise job '(.*)'" | % {$_.Matches.Groups[1].Value});
+  $scanName=$scanNameASE
   }
 else{
   $scanNameASE=(Get-Content .\scanName_var.txt);
