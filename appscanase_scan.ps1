@@ -55,4 +55,4 @@ while ($scanStatus -ne "Ready"){
   write-host $scanStatus;
   sleep 60
   }
-write-host "Scan finished. Requesting report generation."
+write-host "Scan finished."
