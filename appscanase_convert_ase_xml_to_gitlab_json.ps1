@@ -16,7 +16,7 @@ ForEach ($file in $files){
     $urlLocation=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value.Replace('\','\\');
     $paramElement=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[34].value.Replace('"','');
     $path=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[39].value.Replace('\','\\');
-    $sevValue=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[9].value.Replace('Information','Info').Replace('Use CVSS','Unknown');
+    $sevValue=$xml.'xml-report'.'issue-group'.item[$i].severity.Replace('Information','Info').Replace('Use CVSS','Unknown');
     $issueReason=$xml.'xml-report'.'issue-group'.item[$i].'variant-group'.item.reasoning.Replace('"','');
     $issueSolution=($xml.'xml-report'.'remediation-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].remediation.ref}).name.Replace('"','');
     $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
