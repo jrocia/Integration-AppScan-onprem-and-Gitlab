@@ -7,7 +7,7 @@ if ($outputContent -match "Enterprise"){
   $scanName=$scanNameASE;
   echo "entrou no standard";
   }
-elseif([System.IO.File]::Exists("scanName_var.txt") -and [System.IO.File]::Exists("jobId_var.txt")){
+if((Test-Path -Path scanName_var.txt -PathType Leaf) -and (Test-Path -Path jobId_var.txt -PathType Leaf)){
   $scanNameASE=(Get-Content .\scanName_var.txt);
   $jobIdASE=(Get-Content .\jobId_var.txt);
   $scanName="$scanNameASE ($jobIdASE)";
