@@ -22,7 +22,7 @@ $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId
 Invoke-WebRequest -Method "POST" -WebSession $session -Headers @{"asc_xsrf_token"="$sessionId" ; "Accept"="application/json"} -ContentType "application/json" -Body "{`"scantNodeXpath`":`"StartingUrl`",`"scantNodeNewValue`":`"$url`"}" -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatescant" -SkipCertificateCheck | Out-Null;
 write-host "The URL Target was updated in Job Id. It was updated to $url";
 
-if ([System.IO.File]::Exists($loginDastConfig)){
+if ((Test-Path -Path $loginDastConfig -PathType Leaf)){
   write-host "$loginDastConfig exists. So it will be uploaded to the Job and will be used to Authenticate in the URL target during tests.";
   curl -s --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$loginDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/login" --insecure;
   }
@@ -30,7 +30,7 @@ else{
   write-host "Login file not identified."
   }
 
-if ([System.IO.File]::Exists($manualExploreDastConfig)){
+if ((Test-Path -Path $manualExploreDastConfig -PathType Leaf)){
   write-host "$manualExploreDastConfig exists. So it will be uploaded to the Job and will be used during security tests (test only scan mode).";
   curl -s --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/add" --insecure;
   curl -s -X PUT --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/scantype?scanTypeId=3&jobId=$jobId" --insecure;
