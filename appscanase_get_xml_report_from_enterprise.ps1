@@ -4,15 +4,18 @@ write-host "======== Step: Requesting and Exporting XML from ASE ========"
 $outputContent=(Get-Content .\scanName_var.txt).Replace("`0","")
 if ($outputContent -match "Enterprise"){
   $scanNameASE=$($outputContent | Select-String -Pattern "AppScan Enterprise job '(.*)'" | % {$_.Matches.Groups[1].Value});
-  $scanName=$scanNameASE
+  $scanName=$scanNameASE;
+  echo "entrou no standard";
   }
 elseif([System.IO.File]::Exists("scanName_var.txt") -and [System.IO.File]::Exists("jobId_var.txt")){
   $scanNameASE=(Get-Content .\scanName_var.txt);
   $jobIdASE=(Get-Content .\jobId_var.txt);
-  $scanName="$scanNameASE ($jobIdASE)"
+  $scanName="$scanNameASE ($jobIdASE)";
+  echo "entrou no enteprise";
   }
 else{
   $scanName=(Get-Content .\scanName_var.txt);
+  echo "entrou no source";
   }
 
 $sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
