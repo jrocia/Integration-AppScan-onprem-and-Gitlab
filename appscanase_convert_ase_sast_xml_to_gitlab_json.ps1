@@ -3,7 +3,7 @@ write-host "======== Step: Converting ASE SAST XML to Gitlab JSON ========"
 Expand-Archive .\scan_report.zip
 cd .\scan_report\
 $header="{`"version`":`"14.0.4`",`"vulnerabilities`":[";
-echo $header | Out-File -Append -NonewLine .\gl-dast-report.json;
+echo $header | Out-File -Append -NonewLine .\gl-sast-report.json;
 $files=$(Get-Item -Path *.xml);
 ForEach ($file in $files){
   [XML]$xml = Get-Content $file;
@@ -22,31 +22,31 @@ ForEach ($file in $files){
     $issueSolution=($xml.'xml-report'.'remediation-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].remediation.ref}).name.Replace('"','');
     $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
     $appscanId=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value;
-    $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"dast`",`"name`":`"$nameMessageDescriptionValue`",`"message`":`"$nameMessageDescriptionValue in $path`",`"description`":`"$issueReason`",`"cve`":`"$cveValue`",`"solution`":`"$issueSolution`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_standard`",`"name`":`"HCL AppScan Standard`"},`"location`":{`"param`":`"$paramElement`",`"method`":`"$paramElement->Appscan_Report_Id_$appscanId`",`"hostname`":`"$urlLocation`"},`"identifiers`":[{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"ASE: $nameMessageDescriptionCode`",`"value`":`"appscan_standard`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"},{`"type`":`"cwe`",`"name`":`"CWE-$cwe`",`"value`":`"$cwe`",`"url`":`"https://cwe.mitre.org/data/definitions/$cwe.html`"}]}," | Out-File -Append -NonewLine .\gl-dast-report.json;
+    $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"dast`",`"name`":`"$nameMessageDescriptionValue`",`"message`":`"$nameMessageDescriptionValue in $path`",`"description`":`"$issueReason`",`"cve`":`"$cveValue`",`"solution`":`"$issueSolution`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_standard`",`"name`":`"HCL AppScan Standard`"},`"location`":{`"param`":`"$paramElement`",`"method`":`"$paramElement->Appscan_Report_Id_$appscanId`",`"hostname`":`"$urlLocation`"},`"identifiers`":[{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"ASE: $nameMessageDescriptionCode`",`"value`":`"appscan_standard`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"},{`"type`":`"cwe`",`"name`":`"CWE-$cwe`",`"value`":`"$cwe`",`"url`":`"https://cwe.mitre.org/data/definitions/$cwe.html`"}]}," | Out-File -Append -NonewLine .\gl-sast-report.json;
   }
 }
-$dastReport = Get-Content .\gl-dast-report.json;
-$dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLine .\gl-dast-report.json;
-"],`"scan`":{`"scanned_resources`":[" | Out-File -Append -NonewLine .\gl-dast-report.json;
+$dastReport = Get-Content .\gl-sast-report.json;
+$dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLine .\gl-sast-report.json;
+"],`"scan`":{`"scanned_resources`":[" | Out-File -Append -NonewLine .\gl-sast-report.json;
 ForEach ($file in $files){
   [XML]$xml = Get-Content $file;
   $resItems=$xml.'xml-report'.'entity-group'.item.'url-name'.count-1
   [array]$totalResItems=@(0..$resItems);
   if ($xml.'xml-report'.'entity-group'.item.'url-name'.count -eq 1){
     $resItem=$xml.'xml-report'.'entity-group'.item.'url-name'.Replace('\','\\');
-    $idResItems="{`"method`":`"GET`",`"type`":`"url`",`"url`":`"$resItem`"}," | Out-File -Append -NonewLine .\gl-dast-report.json
+    $idResItems="{`"method`":`"GET`",`"type`":`"url`",`"url`":`"$resItem`"}," | Out-File -Append -NonewLine .\gl-sast-report.json
   }      
   else{
     ForEach ($i in $totalResItems) {
       $resItem=$xml.'xml-report'.'entity-group'.item[$i].'url-name'.Replace('\','\\');
-      $idResItems="{`"method`":`"GET`",`"type`":`"url`",`"url`":`"$resItem`"}," | Out-File -Append -NonewLine .\gl-dast-report.json;
+      $idResItems="{`"method`":`"GET`",`"type`":`"url`",`"url`":`"$resItem`"}," | Out-File -Append -NonewLine .\gl-sast-report.json;
     }
   }
 }
-$dastReport = Get-Content .\gl-dast-report.json;
-$dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLine .\gl-dast-report.json;
+$dastReport = Get-Content .\gl-sast-report.json;
+$dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLine .\gl-sast-report.json;
 $reportDateTime=$xml.'xml-report'.layout.'report-date-and-time'.Replace('/','-').Replace(' ','T');
-$footer="],`"analyzer`":{`"id`":`"appscan_standard`",`"name`":`"appscan_standard`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"scanner`":{`"id`":`"dast`",`"name`":`"Find Security Issues`",`"url`":`"https://help.hcltechsw.com/appscan/Standard/10.0.7/topics/home.html`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"type`":`"dast`",`"start_time`":`"$reportDateTime`",`"end_time`":`"$reportDateTime`",`"status`":`"success`"}}" | Out-File -Append -NonewLine .\gl-dast-report.json;
-write-host "AppScan Enterprise XML result converted to gl-dast-report.json."
+$footer="],`"analyzer`":{`"id`":`"appscan_standard`",`"name`":`"appscan_standard`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"scanner`":{`"id`":`"dast`",`"name`":`"Find Security Issues`",`"url`":`"https://help.hcltechsw.com/appscan/Standard/10.0.7/topics/home.html`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"type`":`"dast`",`"start_time`":`"$reportDateTime`",`"end_time`":`"$reportDateTime`",`"status`":`"success`"}}" | Out-File -Append -NonewLine .\gl-sast-report.json;
+write-host "AppScan Enterprise XML result converted to gl-sast-report.json."
 
 cd..
