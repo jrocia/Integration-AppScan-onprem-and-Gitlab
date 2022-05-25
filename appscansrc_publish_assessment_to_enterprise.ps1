@@ -1,4 +1,4 @@
---
+write-host "======== Step: Publishing Assessment in ASE ========"
 
 
 
