@@ -1,13 +1,13 @@
 write-host "======== Step: Running scan in $url ========"
-if ([System.IO.File]::Exists($manualExploreDastConfig) -and [System.IO.File]::Exists($loginDastConfig)){
+if ((Test-Path -Path $manualExploreDastConfig -PathType Leaf) -and (Test-Path -Path $loginDastConfig -PathType Leaf)){
   write-host "Manual explorer and login file were found in repository folder. It will be used in scanning process."
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec /mef $manualExploreDastConfig /to /lf $loginDastConfig
   }
-elseif ([System.IO.File]::Exists($manualExploreDastConfig)){
+elseif ((Test-Path -Path $manualExploreDastConfig -PathType Leaf)){
   write-host "Manual explorer file was found in repository folder. It will be used in scanning process."
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec /mef $manualExploreDastConfig /to
   }
-elseif ([System.IO.File]::Exists($loginDastConfig)){
+elseif ((Test-Path -Path $loginDastConfig -PathType Leaf)){
   write-host "Login file was found in repository folder. It will be used in scanning process."
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec /lf $loginDastConfig
   }
