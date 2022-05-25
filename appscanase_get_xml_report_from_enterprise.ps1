@@ -5,17 +5,17 @@ $outputContent=(Get-Content .\scanName_var.txt).Replace("`0","")
 if ($outputContent -match "Enterprise"){
   $scanNameASE=$($outputContent | Select-String -Pattern "AppScan Enterprise job '(.*)'" | % {$_.Matches.Groups[1].Value});
   $scanName=$scanNameASE;
-  echo "entrou no standard";
+  write-host "XML AppScan Standard";
   }
 if((Test-Path -Path scanName_var.txt -PathType Leaf) -and (Test-Path -Path jobId_var.txt -PathType Leaf)){
   $scanNameASE=(Get-Content .\scanName_var.txt);
   $jobIdASE=(Get-Content .\jobId_var.txt);
   $scanName="$scanNameASE ($jobIdASE)";
-  echo "entrou no enteprise";
+  write-host "XML AppScan Enterprise";
   }
 else{
   $scanName=(Get-Content .\scanName_var.txt);
-  echo "entrou no source";
+  write-host "XML AppScan Source";
   }
 
 $sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
