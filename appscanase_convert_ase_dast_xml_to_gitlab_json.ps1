@@ -1,4 +1,4 @@
-write-host "======== Step: Converting ASE XML to Gitlab JSON ========"
+write-host "======== Step: Converting ASE DAST XML to Gitlab JSON ========"
 Expand-Archive .\scan_report.zip
 cd .\scan_report\
 $header="{`"version`":`"14.0.4`",`"vulnerabilities`":[";
