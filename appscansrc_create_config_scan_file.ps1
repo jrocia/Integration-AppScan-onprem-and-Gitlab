@@ -8,3 +8,5 @@ write-output "report Findings zip $artifactName.zip $artifactFolder\$artifactNam
 write-output "pa $artifactFolder\$artifactName.ozasmt" >> script.scan
 write-output "publishassessase $artifactFolder\$artifactName.ozasmt -aseapplication $aseAppName -name $artifactName-$CI_JOB_ID" >> script.scan
 write-output "exit" >> script.scan
+
+write-host "Config file created."
