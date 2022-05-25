@@ -6,7 +6,7 @@ $mediumIssues = $xml.AssessmentRun.AssessmentStats.total_high_med_finding
 $lowIssues = $xml.AssessmentRun.AssessmentStats.total_high_low_finding
 $totalIssues = $highIssues+$mediumIssues+$lowIssues
 
-write-host "There is $highIssues high issues, $mediumIssues medium issues, $lowIssues low issues and $infoIssues informational issues."
+write-host "There is $highIssues high issues, $mediumIssues medium issues and $lowIssues low issues issues."
 write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw severity."
 
 if (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
