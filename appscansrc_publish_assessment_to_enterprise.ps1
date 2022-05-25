@@ -7,6 +7,6 @@ write-output "exit" >> scriptpase.scan
 
 AppScanSrcCli scr scriptpase.scan
 
-$scanName="$artifactName"-"$CI_JOB_IDScan"
+$scanName="$artifactName`-$CI_JOB_ID"
 write-output $scanName > scanName_var.txt
-write-host "The scan "$artifactName"-"$CI_JOB_IDScan" was published in app "$aseAppName" in ASE"
+write-host "The scan $scanName was published in app $aseAppName in ASE"
