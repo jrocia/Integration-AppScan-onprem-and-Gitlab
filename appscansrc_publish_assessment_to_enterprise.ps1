@@ -1,1 +1,5 @@
 --
+
+
+
+$artifactFolder\$artifactName.ozasmt
