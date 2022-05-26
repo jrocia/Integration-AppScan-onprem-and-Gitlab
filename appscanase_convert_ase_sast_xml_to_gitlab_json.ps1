@@ -1,4 +1,3 @@
-
 write-host "======== Step: Converting ASE SAST XML to Gitlab JSON ========"
 Expand-Archive .\scan_report.zip
 cd .\scan_report\
