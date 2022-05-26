@@ -7,7 +7,7 @@ if ($outputContent -match "Enterprise"){
   $scanName=$scanNameASE;
   write-host "XML AppScan Standard";
   }
-if((Test-Path -Path scanName_var.txt -PathType Leaf) -and (Test-Path -Path jobId_var.txt -PathType Leaf)){
+elseif((Test-Path -Path scanName_var.txt -PathType Leaf) -and (Test-Path -Path jobId_var.txt -PathType Leaf)){
   $scanNameASE=(Get-Content .\scanName_var.txt);
   $jobIdASE=(Get-Content .\jobId_var.txt);
   $scanName="$scanNameASE ($jobIdASE)";
