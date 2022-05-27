@@ -29,4 +29,6 @@ elseif (( $totalIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "totalIssu
   write-host "Security Gate build failed";
   exit 1
   }
+else{
 write-host "Security Gate passed"
+  }
