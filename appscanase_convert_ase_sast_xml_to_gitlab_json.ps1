@@ -16,7 +16,7 @@ ForEach ($file in $files){
       $callingMethod=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[25].value.Replace('\','\\')
       $sourceFile=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[46].value.Replace('\','\\')
       $fileLineLocation=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[5].value.Replace('\','\\')
-      $sourceLine=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[5].value | select-string -pattern "(\d+)" | % {$_.Matches.Groups[1].value}
+      $sourceLine=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[37].value
       $sevValue=$xml.'xml-report'.'issue-group'.item.severity.Replace('Information','Info').Replace('Use CVSS','Unknown');
       $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value)";
       $appscanId=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value;
@@ -35,7 +35,7 @@ ForEach ($file in $files){
         $callingMethod=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[25].value.Replace('\','\\')
         $sourceFile=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[46].value.Replace('\','\\')
         $fileLineLocation=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value.Replace('\','\\')
-        $sourceLine=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value | select-string -pattern "(\d+)" | % {$_.Matches.Groups[1].value}
+        $sourceLine=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[37].value
         $sevValue=$xml.'xml-report'.'issue-group'.item[$i].severity.Replace('Information','Info').Replace('Use CVSS','Unknown');
         $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
         $appscanId=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value;
