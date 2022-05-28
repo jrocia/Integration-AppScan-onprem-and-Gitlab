@@ -10,6 +10,7 @@ write-host "There is $highIssues high issues, $mediumIssues medium issues and $l
 write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw severity."
 
 if (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
+  write-host "$highIssues greater than $maxIssuesAllowed and $sevSecGw equals highIssues"
   write-host "High";
   write-host "Security Gate build failed";
   exit 1
