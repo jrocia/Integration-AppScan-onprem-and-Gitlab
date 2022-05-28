@@ -11,27 +11,24 @@ write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw seve
 
 $maxIssuesAllowed = $maxIssuesAllowed -as [int]
 
-if (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
   write-host "$highIssues greater than $maxIssuesAllowed and $sevSecGw equals highIssues"
   $highIssues.GetType().name
   $maxIssuesAllowed.GetType().name
   $sevSecGw.GetType().name
-  write-host "High";
+
+if (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
   write-host "Security Gate build failed";
   exit 1
   }
 elseif (( $mediumIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "mediumIssues" )) {
-  write-host "Medium";
   write-host "Security Gate build failed";
   exit 1
   }
 elseif (( $lowIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "lowIssues" )) {
-  write-host "Low";
   write-host "Security Gate build failed";
   exit 1
   }
 elseif (( $totalIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "totalIssues" )) {
-  write-host "total";
   write-host "Security Gate build failed";
   exit 1
   }
