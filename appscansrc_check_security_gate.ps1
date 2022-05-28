@@ -11,6 +11,9 @@ write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw seve
 
 if (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
   write-host "$highIssues greater than $maxIssuesAllowed and $sevSecGw equals highIssues"
+  $highIssues.GetType().name
+  $maxIssuesAllowed.GetType().name
+  $sevSecGw.GetType().name
   write-host "High";
   write-host "Security Gate build failed";
   exit 1
