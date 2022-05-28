@@ -5,11 +5,10 @@ write-host "======== Step: Checking Security Gate ========"
 [int]$mediumIssues = $xml.AssessmentRun.AssessmentStats.total_med_finding
 [int]$lowIssues = $xml.AssessmentRun.AssessmentStats.total_low_finding
 [int]$totalIssues = $highIssues+$mediumIssues+$lowIssues
+$maxIssuesAllowed = $maxIssuesAllowed -as [int]
 
 write-host "There is $highIssues high issues, $mediumIssues medium issues and $lowIssues low issues."
 write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw severity."
-
-$maxIssuesAllowed = $maxIssuesAllowed -as [int]
 
   write-host "$highIssues greater than $maxIssuesAllowed and $sevSecGw equals highIssues"
   $highIssues.GetType().name
