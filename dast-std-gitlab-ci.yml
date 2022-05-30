@@ -15,13 +15,13 @@ scan-dast-job:
   stage: scan-dast
   script:
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_scan.ps1 -OutFile appscanstd_scan.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanstd_scan.ps1 -OutFile appscanstd_scan.ps1
     - .\appscanstd_scan.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_generate_pdf_report.ps1 -OutFile appscanstd_generate_pdf_report.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanstd_generate_pdf_report.ps1 -OutFile appscanstd_generate_pdf_report.ps1
     - .\appscanstd_generate_pdf_report.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanstd_check_security_gate.ps1 -OutFile appscanstd_check_security_gate.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanstd_check_security_gate.ps1 -OutFile appscanstd_check_security_gate.ps1
     - .\appscanstd_check_security_gate.ps1
 
   artifacts:
