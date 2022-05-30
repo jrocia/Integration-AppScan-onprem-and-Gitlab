@@ -16,13 +16,13 @@ scan-job:
   - write-host "======== Step: Building artifact ========"
   - gradle build
 
-  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscansrc_create_config_scan_file.ps1 -OutFile appscansrc_create_config_scan_file.ps1
+  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_create_config_scan_file.ps1 -OutFile appscansrc_create_config_scan_file.ps1
   - .\appscansrc_create_config_scan_file.ps1
 
-  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscansrc_scan.ps1 -OutFile appscansrc_scan.ps1
+  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_scan.ps1 -OutFile appscansrc_scan.ps1
   - .\appscansrc_scan.ps1
 
-  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscansrc_check_security_gate.ps1 -OutFile appscansrc_check_security_gate.ps1
+  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_check_security_gate.ps1 -OutFile appscansrc_check_security_gate.ps1
   - .\appscansrc_check_security_gate.ps1
 
   artifacts:
