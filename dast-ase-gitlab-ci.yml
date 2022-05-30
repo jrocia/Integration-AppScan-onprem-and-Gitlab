@@ -17,22 +17,22 @@ scan-dast-job:
   stage: scan-dast
   script:
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_create_application_ase.ps1 -OutFile appscanase_create_application_ase.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_create_application_ase.ps1 -OutFile appscanase_create_application_ase.ps1
     - .\appscanase_create_application_ase.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_scan.ps1 -OutFile appscanase_scan.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_scan.ps1 -OutFile appscanase_scan.ps1
     - .\appscanase_scan.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_get_pdf_report_from_enterprise.ps1 -OutFile appscanase_get_pdf_report_from_enterprise.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_get_pdf_report_from_enterprise.ps1 -OutFile appscanase_get_pdf_report_from_enterprise.ps1
     - .\appscanase_get_pdf_report_from_enterprise.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_get_xml_report_from_enterprise.ps1 -OutFile appscanase_get_xml_report_from_enterprise.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_get_xml_report_from_enterprise.ps1 -OutFile appscanase_get_xml_report_from_enterprise.ps1
     - .\appscanase_get_xml_report_from_enterprise.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_convert_ase_dast_xml_to_gitlab_json.ps1 -OutFile appscanase_convert_ase_dast_xml_to_gitlab_json.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_convert_ase_dast_xml_to_gitlab_json.ps1 -OutFile appscanase_convert_ase_dast_xml_to_gitlab_json.ps1
     - .\appscanase_convert_ase_dast_xml_to_gitlab_json.ps1
 
-    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Yaml-test/main/appscanase_check_security_gate.ps1 -OutFile appscanase_check_security_gate.ps1
+    - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_check_security_gate.ps1 -OutFile appscanase_check_security_gate.ps1
     - .\appscanase_check_security_gate.ps1
 
   artifacts:
