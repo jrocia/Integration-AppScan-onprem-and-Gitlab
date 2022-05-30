@@ -10,6 +10,8 @@ Gitlab-CI.YML:<br>
 dast-std-gitlab-ci.yml<br>
 sast-src-gitlab-ci.yml<br>
 dast-std-ase-gitlab-ci.yml<br>
+![image](https://user-images.githubusercontent.com/69405400/171017689-8cc63533-35dd-44f5-bc34-7db9d4e883d0.png)
+
 sast-src-ase-gitlab-ci.yml<br>
 dast-ase-gitlab-ci.yml<br>
 <br>
