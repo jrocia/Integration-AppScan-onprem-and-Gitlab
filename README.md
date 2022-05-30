@@ -8,6 +8,7 @@ https://github.com/jrocia/Integration-AppScanSRC-and-Gitlab<br>
 <br>
 <b><p align="center">Gitlab-CI.YML:<br></b>
 dast-std-gitlab-ci.yml<br>
+
 ![image](https://user-images.githubusercontent.com/69405400/171052499-65af2174-2f16-454a-bf81-fe7985fcb560.png)
 
 sast-src-gitlab-ci.yml<br>
