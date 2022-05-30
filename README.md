@@ -6,20 +6,20 @@ https://github.com/jrocia/Integration-ASE-DAST-and-Gitlab<br>
 https://github.com/jrocia/Integration-AppScanSRC-and-Gitlab<br>
 
 <br>
-<p align="center">Gitlab-CI.YML:<br></p>
-dast-std-gitlab-ci.yml<br>
+<p align="center">**Gitlab-CI.YML:**<br></p>
+**dast-std-gitlab-ci.yml**<br>
 ![image](https://user-images.githubusercontent.com/69405400/171052499-65af2174-2f16-454a-bf81-fe7985fcb560.png)
 
-sast-src-gitlab-ci.yml<br>
+**sast-src-gitlab-ci.yml<br>**
 ![image](https://user-images.githubusercontent.com/69405400/171052553-94a8864c-464a-4a18-bcf8-5e967101e75a.png)
 
-dast-std-ase-gitlab-ci.yml<br>
+**dast-std-ase-gitlab-ci.yml**<br>
 ![image](https://user-images.githubusercontent.com/69405400/171052601-57235dee-ba69-4af5-a609-361ca81ce438.png)
 
-sast-src-ase-gitlab-ci.yml<br>
+**sast-src-ase-gitlab-ci.yml**<br>
 ![image](https://user-images.githubusercontent.com/69405400/171052626-984b0fd1-4581-4bfa-bf65-dcc5f8976c8e.png)
 
-dast-ase-gitlab-ci.yml<br>
+**dast-ase-gitlab-ci.yml**<br>
 ![image](https://user-images.githubusercontent.com/69405400/171052657-c04fec45-fece-4f0a-b1e4-e0c72219d610.png)
 
 
