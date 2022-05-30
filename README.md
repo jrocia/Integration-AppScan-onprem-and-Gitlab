@@ -6,7 +6,7 @@ https://github.com/jrocia/Integration-ASE-DAST-and-Gitlab<br>
 https://github.com/jrocia/Integration-AppScanSRC-and-Gitlab<br>
 
 <br>
-<b><p align="center">**Gitlab-CI.YML:**<br></p></b>
+<b><p align="center">Gitlab-CI.YML:<br></b>
 dast-std-gitlab-ci.yml<br>
 ![image](https://user-images.githubusercontent.com/69405400/171052499-65af2174-2f16-454a-bf81-fe7985fcb560.png)
 
@@ -21,7 +21,7 @@ sast-src-ase-gitlab-ci.yml<br>
 
 dast-ase-gitlab-ci.yml<br>
 ![image](https://user-images.githubusercontent.com/69405400/171052657-c04fec45-fece-4f0a-b1e4-e0c72219d610.png)
-
+</p>
 
 <br>
 
