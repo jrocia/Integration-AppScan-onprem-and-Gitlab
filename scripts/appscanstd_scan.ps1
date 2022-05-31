@@ -12,6 +12,7 @@ elseif ((Test-Path -Path $loginDastConfig -PathType Leaf)){
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec /lf $loginDastConfig
   }
 else{
+  write-host "There is no Login or Manual Explorer file in repository folder."
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec
   }
 write-host "Scan on $url finished."
