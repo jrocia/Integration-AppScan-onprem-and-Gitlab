@@ -1,9 +1,7 @@
 variables:
   aseToken: C:\ProgramData\HCL\AppScanSource\config\ounceautod.token
-  aseHostname: xxxxxxxxx
-  aseAppName: $CI_PROJECT_NAME
   artifactFolder: $CI_PROJECT_DIR\build\libs 
-  artifactName: xxxxxxxxx.war
+  artifactName: xxxxxxxxxxxx.war
   sevSecGw: highIssues
   maxIssuesAllowed: 80
 
@@ -13,7 +11,7 @@ stages:
 scan-job:
   stage: scan
   script:
-  - write-host "======== Step: Building artifact ========"
+  - write-host "======== Step 1 - Building artifact ========"
   - gradle build
 
   - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_create_config_scan_file.ps1 -OutFile appscansrc_create_config_scan_file.ps1
