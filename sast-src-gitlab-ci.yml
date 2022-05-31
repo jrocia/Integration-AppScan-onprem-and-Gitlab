@@ -24,6 +24,7 @@ scan-job:
   - .\appscansrc_check_security_gate.ps1
 
   artifacts:
+    when: always
     paths:
       - "*.ozasmt"
       - "*.zip"
