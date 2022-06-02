@@ -43,3 +43,33 @@ scripts/appscanase_convert_ase_sast_xml_to_gitlab_json.ps1<br>
 scripts/appscanase_check_security_gate.ps1<br>
 scripts/appscansrc_check_security_gate.ps1<br>
 scripts/appscanstd_check_security_gate.ps1<br>
+
+Gitlab yaml file	Powershell script
+dast-ase-gitlab-ci.yml	appscanase_create_application_ase.ps1
+	appscanase_scan.ps1
+	appscanase_get_pdf_report_from_enterprise.ps1
+	appscanase_get_xml_report_from_enterprise.ps1
+	appscanase_convert_ase_dast_xml_to_gitlab_json.ps1
+	appscanase_check_security_gate.ps1
+dast-std-ase-gitlab-ci.yml	appscanase_create_application_ase.ps1
+	appscanstd_scan.ps1
+	appscanstd_generate_pdf_report.ps1
+	appscanstd_publish_assessment_to_enterprise.ps1
+	appscanase_get_xml_report_from_enterprise.ps1
+	appscanase_convert_ase_dast_xml_to_gitlab_json.ps1
+	appscanstd_check_security_gate.ps1
+dast-std-gitlab-ci.yml	appscanstd_scan.ps1
+	appscanstd_generate_pdf_report.ps1
+	appscanstd_check_security_gate.ps1
+sast-src-ase-gitlab-ci.yml	appscanase_create_application_ase.ps1
+	appscansrc_create_config_scan_file.ps1
+	appscansrc_scan.ps1
+	appscansrc_publish_assessment_to_enterprise.ps1
+	appscanase_get_xml_report_from_enterprise.ps1
+	appscanase_convert_ase_sast_xml_to_gitlab_json.ps1
+	appscansrc_check_security_gate.ps1
+sast-src-gitlab-ci.yml	appscansrc_create_config_scan_file.ps1
+	appscansrc_scan.ps1
+	appscansrc_check_security_gate.ps1
+![image](https://user-images.githubusercontent.com/69405400/171626936-504f9d04-73dc-4410-aa91-050055b26ee7.png)
+
