@@ -35,7 +35,7 @@ while ($reportStatusCode -ne 201){
   write-host "Report being generated"
 }
 
-sleep 60;
+sleep 180;
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
