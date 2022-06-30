@@ -1,5 +1,4 @@
 write-host "======== Step: Running scan in $url ========"
-$PSDefaultParameterValues['*:Encoding'] = 'unicode'
 $sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
