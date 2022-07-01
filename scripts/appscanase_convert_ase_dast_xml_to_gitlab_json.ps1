@@ -1,11 +1,16 @@
 write-host "======== Step: Converting ASE DAST XML to Gitlab JSON ========"
+# Unzip scan_report.zip and open the folder
 Expand-Archive .\scan_report.zip
 cd .\scan_report\
+# Preparing to convert from ASE XML to Gitlab Json format
 $header="{`"version`":`"14.0.4`",`"vulnerabilities`":[";
 echo $header | Out-File -Append -NonewLine .\gl-dast-report.json;
+# Load list of ase xml files
 $files=$(Get-Item -Path *.xml);
+# For each XML file extract vulnerabilities items and add into gl-dast-report.json (vulnerability item session)
 ForEach ($file in $files){
   [XML]$xml = Get-Content $file;
+    # If there is just 1 vulnerability item in the XML file
     if ($xml.'xml-report'.'issue-group'.item.count -eq 1){
       $ErrorActionPreference = 'SilentlyContinue';
       $nameMessageDescriptionCode=$xml.'xml-report'.'issue-group'.item.'issue-type'.ref;
@@ -41,9 +46,12 @@ ForEach ($file in $files){
       }
     }
   }
+# Remove the last comma
 $dastReport = Get-Content .\gl-dast-report.json;
 $dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLine .\gl-dast-report.json;
+# Finish the vulnerability item session and start the url scanned session
 "],`"scan`":{`"scanned_resources`":[" | Out-File -Append -NonewLine .\gl-dast-report.json;
+# For each ASE XML file, extract url scanned and add into gl-dast-report.json (scanned resources session)
 ForEach ($file in $files){
   [XML]$xml = Get-Content $file;
   $resItems=$xml.'xml-report'.'entity-group'.item.'url-name'.count-1
@@ -59,10 +67,13 @@ ForEach ($file in $files){
     }
   }
 }
+# Remove the last comma
 $dastReport = Get-Content .\gl-dast-report.json;
 $dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLine .\gl-dast-report.json;
+# Extract date from ASE XML and add into gl-dast-report.json
 $reportDateTime=$xml.'xml-report'.layout.'report-date-and-time'.Replace('/','-').Replace(' ','T');
+# Finish gl-dast-report.json
 $footer="],`"analyzer`":{`"id`":`"appscan_standard`",`"name`":`"appscan_standard`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"scanner`":{`"id`":`"dast`",`"name`":`"Find Security Issues`",`"url`":`"https://help.hcltechsw.com/appscan/Standard/10.0.7/topics/home.html`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"type`":`"dast`",`"start_time`":`"$reportDateTime`",`"end_time`":`"$reportDateTime`",`"status`":`"success`"}}" | Out-File -Append -NonewLine .\gl-dast-report.json;
 write-host "AppScan Enterprise XML result converted to gl-dast-report.json."
-
+# Back to root folder
 cd..
