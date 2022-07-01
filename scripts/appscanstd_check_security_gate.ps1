@@ -1,5 +1,5 @@
 write-host "======== Step: Checking Security Gate ========"
-
+# Loading XML file into a variable and get amount of issues
 [XML]$xml = Get-Content *-sevsec.xml
 [int]$highIssues = $xml.XmlReport.Summary.Hosts.Host.TotalHighSeverityIssues
 [int]$mediumIssues = $xml.XmlReport.Summary.Hosts.Host.TotalMediumSeverityIssues
