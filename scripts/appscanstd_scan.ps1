@@ -1,4 +1,5 @@
 write-host "======== Step: Running scan in $url ========"
+# Checking if there is Manual explorer file and/or Login process file and running AppScan Stardard scan 
 if ((Test-Path -Path $manualExploreDastConfig -PathType Leaf) -and (Test-Path -Path $loginDastConfig -PathType Leaf)){
   write-host "Manual explorer and login file were found in repository folder. It will be used in scanning process."
   AppScanCMD.exe /su $url /d $scanFile /rt xml /rf $reportXMLsevSec /mef $manualExploreDastConfig /to /lf $loginDastConfig
