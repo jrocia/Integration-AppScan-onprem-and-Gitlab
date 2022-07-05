@@ -16,14 +16,26 @@ ForEach ($file in $files){
       $nameMessageDescriptionCode=$xml.'xml-report'.'issue-group'.item.'issue-type'.ref;
       $nameMessageDescriptionValue=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).name.Replace('"','');
       $cwe=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).cwe
-      $urlLocation=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[5].value.Replace('\','\\');
-      $paramElement=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[34].value.Replace('"','');
-      $path=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[39].value.Replace('\','\\');
+      
+      #$urlLocation=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[5].value.Replace('\','\\');
+      $urlLocation=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Location:'}).value.Replace('\','\\');
+            
+      #$paramElement=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[34].value.Replace('"','');
+      $paramElement=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Element:'}).value.Replace('"','');
+      
+      #$path=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[39].value.Replace('\','\\');
+      $path=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Path:'}).value.Replace('\','\\');
+      
       $sevValue=$xml.'xml-report'.'issue-group'.item.severity.Replace('Information','Info').Replace('Use CVSS','Unknown');
       $issueReason=$xml.'xml-report'.'issue-group'.item.'variant-group'.item.reasoning.Replace('"','');
       $issueSolution=($xml.'xml-report'.'remediation-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item.remediation.ref}).name.Replace('"','');
-      $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value)";
-      $appscanId=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value;
+      
+      #$cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value)";
+      $cveValue="$(Get-Random)"+"appscanid"+"$(($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Id:'}).value)";     
+      
+      #$appscanId=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value;
+      $appscanId=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Id:'}).value;
+      
       $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"dast`",`"name`":`"$nameMessageDescriptionValue`",`"message`":`"$nameMessageDescriptionValue in $path`",`"description`":`"$issueReason`",`"cve`":`"$cveValue`",`"solution`":`"$issueSolution`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_standard`",`"name`":`"HCL AppScan Standard`"},`"location`":{`"param`":`"$paramElement`",`"method`":`"$paramElement->Appscan_Report_Id_$appscanId`",`"hostname`":`"$urlLocation`"},`"identifiers`":[{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"ASE: $nameMessageDescriptionCode`",`"value`":`"appscan_standard`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"},{`"type`":`"cwe`",`"name`":`"CWE-$cwe`",`"value`":`"$cwe`",`"url`":`"https://cwe.mitre.org/data/definitions/$cwe.html`"}]}," | Out-File -Append -NonewLine .\gl-dast-report.json;
     }
     else{
@@ -34,14 +46,19 @@ ForEach ($file in $files){
         $nameMessageDescriptionCode=$xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref;
         $nameMessageDescriptionValue=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).name.Replace('"','');
         $cwe=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).cwe
-        $urlLocation=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value.Replace('\','\\');
-        $paramElement=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[34].value.Replace('"','');
-        $path=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[39].value.Replace('\','\\');
+        #$urlLocation=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value.Replace('\','\\');
+        $urlLocation=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Location:'}).value.Replace('\','\\');
+        #$paramElement=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[34].value.Replace('"','');
+        $paramElement=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Element:'}).value.Replace('"','');
+        #$path=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[39].value.Replace('\','\\');
+        $path=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Path:'}).value.Replace('\','\\');
         $sevValue=$xml.'xml-report'.'issue-group'.item[$i].severity.Replace('Information','Info').Replace('Use CVSS','Unknown');
         $issueReason=$xml.'xml-report'.'issue-group'.item[$i].'variant-group'.item.reasoning.Replace('"','');
         $issueSolution=($xml.'xml-report'.'remediation-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].remediation.ref}).name.Replace('"','');
-        $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
-        $appscanId=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value;
+        #$cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
+        $cveValue="$(Get-Random)"+"appscanid"+"$(($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Id:'}).value)";
+        #$appscanId=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value;
+        $appscanId=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Id:'}).value;
         $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"dast`",`"name`":`"$nameMessageDescriptionValue`",`"message`":`"$nameMessageDescriptionValue in $path`",`"description`":`"$issueReason`",`"cve`":`"$cveValue`",`"solution`":`"$issueSolution`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_standard`",`"name`":`"HCL AppScan Standard`"},`"location`":{`"param`":`"$paramElement`",`"method`":`"$paramElement->Appscan_Report_Id_$appscanId`",`"hostname`":`"$urlLocation`"},`"identifiers`":[{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"ASE: $nameMessageDescriptionCode`",`"value`":`"appscan_standard`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"},{`"type`":`"cwe`",`"name`":`"CWE-$cwe`",`"value`":`"$cwe`",`"url`":`"https://cwe.mitre.org/data/definitions/$cwe.html`"}]}," | Out-File -Append -NonewLine .\gl-dast-report.json;
       }
     }
