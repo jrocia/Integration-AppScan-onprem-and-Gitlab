@@ -55,6 +55,9 @@ $scanStatus="Running";
 while ($scanStatus -ne "Ready"){
   $scanStatus=$((Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/folderitems/$jobId/statistics" -SkipCertificateCheck).content | Convertfrom-json).statistics.status;
   write-host $scanStatus;
+  if ($scanStatus -like "*Suspended*"){
+    break
+    }
   sleep 60
   }
 write-host "Scan finished."
