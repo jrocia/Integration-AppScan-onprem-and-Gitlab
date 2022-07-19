@@ -9,11 +9,11 @@ $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
 $vulnSummary=$((Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}-Uri "https://$aseHostname`:9443/ase/api/summaries/issues_v2?query=scanname%3D$scanName%20($jobId)&group=Severity" -SkipCertificateCheck).content | ConvertFrom-json)
 # Security Gate steps
-[int]$highIssues = $vulnSummary.numMatch[0]
-[int]$mediumIssues = $vulnSummary.numMatch[1]
-[int]$lowIssues = $vulnSummary.numMatch[2]
-[int]$infoIssues = $vulnSummary.numMatch[3]
-[int]$totalIssues = $vulnSummary.numMatch[0]+$vulnSummary.numMatch[1]+$vulnSummary.numMatch[2]+$vulnSummary.numMatch[3]
+[int]$highIssues = ($vulnSummary | Where {$_.tagName -eq 'High'}).numMatch
+[int]$mediumIssues = ($vulnSummary | Where {$_.tagName -eq 'Medium'}).numMatch
+[int]$lowIssues = ($vulnSummary | Where {$_.tagName -eq 'Low'}).numMatch
+[int]$infoIssues = ($vulnSummary | Where {$_.tagName -eq 'Information'}).numMatch
+[int]$totalIssues = $highIssues+$mediumIssues+$lowIssues+$infoIssues
 $maxIssuesAllowed = $maxIssuesAllowed -as [int]
 
 write-host "There is $highIssues high issues, $mediumIssues medium issues, $lowIssues low issues and $infoIssues informational issues."
