@@ -34,9 +34,7 @@ else{
 # Checking is there is manual explorer file in the repository
 if ((Test-Path -Path $manualExploreDastConfig -PathType Leaf)){
   write-host "$manualExploreDastConfig exists. So it will be uploaded to the Job and will be used during security tests (test only scan mode).";
-  $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
-  $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
-  Invoke-WebRequest -Form @{uploadedfile=$manualExploreDastConfig} -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}  -Uri "https://$aseHostname`:9443/ase/api/applications/search?searchTerm=$aseAppName" -SkipCertificateCheck;
+  Invoke-WebRequest -Method Post -Form @{uploadedfile=Get-Item -Path "$manualExploreDastConfig"} -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}  -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/add" -SkipCertificateCheck
   #curl -s --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/add" --insecure;
   curl -s -X PUT --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" "https://$aseHostname`:9443/ase/api/jobs/scantype?scanTypeId=3&jobId=$jobId" --insecure;
   }      
