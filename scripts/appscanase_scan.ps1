@@ -26,7 +26,7 @@ write-host "The URL Target was updated in Job Id. It was updated to $url";
 # Checking is there is login file in the repository
 if ((Test-Path -Path $loginDastConfig -PathType Leaf)){
   write-host "$loginDastConfig exists. So it will be uploaded to the Job and will be used to Authenticate in the URL target during tests.";
-  curl -s --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$loginDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/login" --insecure;
+  curl --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$loginDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/login" --insecure;
   }
 else{
   write-host "Login file not identified."
@@ -34,8 +34,8 @@ else{
 # Checking is there is manual explorer file in the repository
 if ((Test-Path -Path $manualExploreDastConfig -PathType Leaf)){
   write-host "$manualExploreDastConfig exists. So it will be uploaded to the Job and will be used during security tests (test only scan mode).";
-  curl -s --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/add" --insecure;
-  curl -s -X PUT --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/scantype?scanTypeId=3&jobId=$jobId" --insecure;
+  curl --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/add" --insecure;
+  curl -X PUT --header 'X-Requested-With: XMLHttpRequest' --header "Cookie: asc_session_id=$sessionId;" --header "Asc_xsrf_token: $sessionId" -F "uploadedfile=@$manualExploreDastConfig" "https://$aseHostname`:9443/ase/api/jobs/scantype?scanTypeId=3&jobId=$jobId" --insecure;
   }      
 else{
   write-host "Manual explorer file not identified."
