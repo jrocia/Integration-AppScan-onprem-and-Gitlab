@@ -56,5 +56,5 @@ $reportDateTime=$xml.'xml-report'.layout.'report-date-and-time'.Replace('/','-')
 # Finish gl-dast-report.json
 $footer="],`"scan`":{`"analyzer`":{`"id`":`"appscan_source`",`"name`":`"appscan_source`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"scanner`":{`"id`":`"sast`",`"name`":`"Find Security Issues`",`"url`":`"https://help.hcltechsw.com/appscan/Source/10.0.7/topics/home.html`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"type`":`"sast`",`"start_time`":`"$reportDateTime`",`"end_time`":`"$reportDateTime`",`"status`":`"success`"}}" | Out-File -Append -NonewLine .\gl-sast-report.json
 write-host "AppScan Enterprise XML result converted to gl-sast-report.json."
-# Back to root folder
+# Back to root folderr
 cd..
