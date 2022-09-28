@@ -29,11 +29,19 @@ write-host "$reportId"
 $reportStatus=$((Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/issues/reports/$reportId/status" -SkipCertificateCheck).content | ConvertFrom-Json).reportJobState
 write-host "$reportStatus"
 # Wait report generation finished
+#while ($reportStatusCode -ne 201){
+#  $reportStatusCode=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/issues/reports/$reportId/status" -SkipCertificateCheck).statusCode
+#  write-host "Report being generated"
+#}
 while ($reportStatusCode -ne 201){
-  $reportStatusCode=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/issues/reports/$reportId/status" -SkipCertificateCheck).statusCode
-  write-host "Report being generated"
+  try{
+    $reportStatusCode=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri https://$aseHostname`:9443/ase/api/issues/reports/$reportId/status -SkipCertificateCheck).statusCode;
+  }
+  catch{
+    write-Host $_;
+  }
+  write-host "Report being generated";
 }
-
 sleep 10;
 # Request download report file zipped
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
