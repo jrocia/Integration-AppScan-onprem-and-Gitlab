@@ -1,3 +1,11 @@
+# copia este script para crear carpetas en ASE y crear los escaneos dentro de las carpetas.
+# https://github.com/jrocia/Integration-AppScan-onprem-and-Gitlab/blob/main/scripts/appscanase_create_folder_ase.ps1
+# Tenemos que hacer alguns pasos para "instalar" este paso a mas en la integracion.
+# 1 - Tiene que correr antes de appscanase_scan
+# 2 - Tenemos que hacer dos (2) cambios en lo script appscanase_scan
+# 2.1 - agregar: $aseAppFolderId=Get-Content .\aseAppFolderId.txt
+# 2.2 - cambio: $jobId=$(Invoke-WebRequest -Method "POST" -WebSession $session -Headers @{"asc_xsrf_token"="$sessionId" ; "Accept"="application/json"} -ContentType "application/json" -Body "{`"testPolicyId`":`"3`",`"folderId`":`"$aseAppFolderId`",`"applicationId`":`"$aseAppId`",`"name`":`"$scanName`",`"description`":`"`",`"contact`":`"`"}" -Uri "https://$aseHostname`:9443/ase/api/jobs/$scanTemplate/dastconfig/createjob" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty Id);
+
 write-host "======== Step: Checking folder name in AppScan Enterprise ========"
 # ASE authentication
 $sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
