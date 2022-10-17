@@ -38,3 +38,6 @@ elseif (( $totalIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "totalIssu
 else{  
 write-host "Security Gate passed"
   }
+
+# If you want to delete every files after execution
+# Remove-Item -path $CI_PROJECT_DIR\* -recurse -exclude *.pdf,*.json,*.xml
