@@ -17,6 +17,10 @@ scan-job:
   - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_create_config_scan_file.ps1 -OutFile appscansrc_create_config_scan_file.ps1
   - .\appscansrc_create_config_scan_file.ps1
 
+  # new! You can read the folder using Open Folder (OF) AppScan parameter
+  #- Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_create_config_scan_folder.ps1 -OutFile appscansrc_create_config_scan_folder.ps1
+  #- .\appscansrc_create_config_scan_folder.ps1
+
   - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_scan.ps1 -OutFile appscansrc_scan.ps1
   - .\appscansrc_scan.ps1
 
