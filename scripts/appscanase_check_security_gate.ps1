@@ -40,4 +40,4 @@ write-host "Security Gate passed"
   }
 
 # If you want to delete every files after execution
-# Remove-Item -path $CI_PROJECT_DIR\* -recurse -exclude *.pdf,*.json,*.xml
+# Remove-Item -path $CI_PROJECT_DIR\* -recurse -exclude *.pdf,*.json,*.xml -force
