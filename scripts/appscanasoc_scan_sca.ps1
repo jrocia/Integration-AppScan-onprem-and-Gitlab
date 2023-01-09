@@ -7,8 +7,8 @@ appscan api_login -u $asocApiKeyId -P $asocApiKeySecret -persist
 appscan prepare_sca
 
 if ($(Test-Path *.irx) -eq $False){
-	Write-host "IRX file not found. Check if there is content to be analyzed.";
-	exit 1;
+  Write-host "IRX file not found. Check if there is content to be analyzed.";
+  exit 1;
 }
 
 appscan queue_analysis -a $asocAppName -n $CI_PROJECT_NAME-$CI_JOB_ID > scanId.txt
