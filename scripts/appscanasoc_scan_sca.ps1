@@ -1,8 +1,8 @@
-$asocApiKeyId='aaaaaaaaaaaaaaaaaaa'
-$asocApiKeySecret='aaaaaaaaaaaaaaaaaaa'
-$asocAppName = 'aaaaaaaaaaaaaaaaaaa'
+#$asocApiKeyId='aaaaaaaaaaaaaaaaaaa'
+#$asocApiKeySecret='aaaaaaaaaaaaaaaaaaa'
+#$asocAppName = 'aaaaaaaaaaaaaaaaaaa'
 
-appscan update
+#appscan update
 appscan api_login -u $asocApiKeyId -P $asocApiKeySecret -persist
 appscan prepare_sca
 
