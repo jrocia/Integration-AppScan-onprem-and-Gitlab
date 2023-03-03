@@ -2,7 +2,8 @@
 #$asocApiKeySecret='aaaaaaaaaaaaaaaaaaa'
 #$asocAppName = 'aaaaaaaaaaaaaaaaaaa'
 
-#appscan update
+$asocAppId=(Get-Content .\asocAppId_var.txt);
+appscan update
 appscan api_login -u $asocApiKeyId -P $asocApiKeySecret -persist
 appscan prepare_sca
 
@@ -11,7 +12,7 @@ if ($(Test-Path *.irx) -eq $False){
   exit 1;
 }
 
-appscan queue_analysis -a $asocAppName -n $CI_PROJECT_NAME-$CI_JOB_ID > scanId.txt
+appscan queue_analysis -a $asocAppId -n $CI_PROJECT_NAME-$CI_JOB_ID > scanId.txt
 $scanId = Get-Content .\scanId.txt -tail 1
 $scanStatus = appscan status -i $scanId
 
