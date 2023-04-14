@@ -36,13 +36,14 @@ write-host "$reportStatus"
 while ($reportStatusCode -ne 201){
   try{
     $reportStatusCode=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri https://$aseHostname`:9443/ase/api/issues/reports/$reportId/status -SkipCertificateCheck).statusCode;
+    sleep 10;
   }
   catch{
     write-Host $_;
   }
   write-host "Report being generated";
 }
-sleep 60;
+sleep 10;
 # Request download report file zipped
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
