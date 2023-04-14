@@ -9,6 +9,7 @@ $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
 $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
 $vulnSummary=$((Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}-Uri "https://$aseHostname`:9443/ase/api/summaries/issues_v2?query=scanname%3D$scanName%20($jobId)&group=Severity" -SkipCertificateCheck).content | ConvertFrom-json)
 # Security Gate steps
+[int]$criticalIssues = ($vulnSummary | Where {$_.tagName -eq 'Critical'}).numMatch
 [int]$highIssues = ($vulnSummary | Where {$_.tagName -eq 'High'}).numMatch
 [int]$mediumIssues = ($vulnSummary | Where {$_.tagName -eq 'Medium'}).numMatch
 [int]$lowIssues = ($vulnSummary | Where {$_.tagName -eq 'Low'}).numMatch
@@ -16,10 +17,14 @@ $vulnSummary=$((Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_toke
 [int]$totalIssues = $highIssues+$mediumIssues+$lowIssues+$infoIssues
 $maxIssuesAllowed = $maxIssuesAllowed -as [int]
 
-write-host "There is $highIssues high issues, $mediumIssues medium issues, $lowIssues low issues and $infoIssues informational issues."
+write-host "There is $criticalIssues critical issues, $highIssues high issues, $mediumIssues medium issues, $lowIssues low issues and $infoIssues informational issues."
 write-host "The company policy permit less than $maxIssuesAllowed $sevSecGw severity."
 
-if (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
+if (( $criticalIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "criticalIssues" )) {
+  write-host "Security Gate build failed";
+  exit 1
+  }
+elseif (( $highIssues -gt $maxIssuesAllowed ) -and ( "$sevSecGw" -eq "highIssues" )) {
   write-host "Security Gate build failed";
   exit 1
   }
