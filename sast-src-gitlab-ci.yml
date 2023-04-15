@@ -2,6 +2,7 @@ variables:
   aseToken: C:\ProgramData\HCL\AppScanSource\config\ounceautod.token
   artifactFolder: $CI_PROJECT_DIR\build\libs 
   artifactName: xxxxxxxxxxxx.war
+# compiledArtifactFolder: none
   sevSecGw: highIssues
   maxIssuesAllowed: 80
 
@@ -31,4 +32,4 @@ scan-job:
     when: always
     paths:
       - "*.ozasmt"
-      - "*.zip"
+      - "*.pdf"
