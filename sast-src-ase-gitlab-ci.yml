@@ -5,6 +5,7 @@ variables:
   aseApiKeyId: xxxxxxxxxxxxx
   aseApiKeySecret: xxxxxxxxxxxxx
   compiledArtifactFolder: none # when is "none" scan sourcecodeonly 
+  scanConfig: Normal scan
   sevSecGw: highIssues
   maxIssuesAllowed: 100
 # artifactFolder: $CI_PROJECT_DIR\build\libs 
