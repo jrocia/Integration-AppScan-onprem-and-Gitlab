@@ -4,10 +4,11 @@ variables:
   aseAppName: $CI_PROJECT_NAME
   aseApiKeyId: xxxxxxxxxxxxx
   aseApiKeySecret: xxxxxxxxxxxxx
-  artifactFolder: $CI_PROJECT_DIR\build\libs 
-  artifactName: xxxxxxxxxxxxx.war
+  compiledArtifactFolder: none # when is "none" scan sourcecodeonly 
   sevSecGw: highIssues
   maxIssuesAllowed: 100
+# artifactFolder: $CI_PROJECT_DIR\build\libs 
+# artifactName: xxxxxxxxxxxxx.war
 
 stages:
 - scan
@@ -15,15 +16,11 @@ stages:
 scan-job:
   stage: scan
   script:
-  - write-host "======== Step 1 - Building artifact ========"
-  - gradle clean
-  - gradle build
-
   - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_create_application_ase.ps1 -OutFile appscanase_create_application_ase.ps1
   - .\appscanase_create_application_ase.ps1
 
-  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_create_config_scan_file.ps1 -OutFile appscansrc_create_config_scan_file.ps1
-  - .\appscansrc_create_config_scan_file.ps1
+  - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_create_config_scan_folder.ps1 -OutFile appscansrc_create_config_scan_file.ps1
+  - .\appscansrc_create_config_scan_folder.ps1
 
   - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscansrc_scan.ps1 -OutFile appscansrc_scan.ps1
   - .\appscansrc_scan.ps1
@@ -44,6 +41,6 @@ scan-job:
     when: always
     paths:
       - "*.ozasmt"
-      - "*.zip"
+      - "*.pdf"
     reports:
       sast: .\scan_report\gl-sast-report.json
