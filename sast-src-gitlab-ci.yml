@@ -3,6 +3,7 @@ variables:
   artifactFolder: $CI_PROJECT_DIR\build\libs 
   artifactName: xxxxxxxxxxxx.war
 # compiledArtifactFolder: none
+  scanConfig: Normal scan
   sevSecGw: highIssues
   maxIssuesAllowed: 80
 
