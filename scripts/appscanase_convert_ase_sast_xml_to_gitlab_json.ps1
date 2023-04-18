@@ -31,7 +31,8 @@ ForEach ($file in $files){
       $nameMessageDescriptionValue=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).name.Replace('"','');
       $nameMessageDescriptionText1=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).causes.ref}).'#text';
       $nameMessageDescriptionText2=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).causes.ref}).'#text';
-      $nameMessageDescriptionText="$nameMessageDescriptionText1. $nameMessageDescriptionText2."
+      #$nameMessageDescriptionText="$nameMessageDescriptionText1. $nameMessageDescriptionText2."
+      $nameMessageDescriptionText=$xml.'xml-report'.'issue-group'.item.'variant-group'.item.'issue-information'.'method-signature'.'#text';
       $callingMethod=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Calling Method:'}).value.Replace('\','\\');
       $sourceFile=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Source File:'}).value.Replace('\','\\');
       $fileLineLocation=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Location:'}).value.Replace('\','\\');
@@ -50,7 +51,8 @@ ForEach ($file in $files){
         $nameMessageDescriptionValue=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).name.Replace('"','');
         $nameMessageDescriptionText1=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).causes.ref}).'#text';
         $nameMessageDescriptionText2=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).causes.ref}).'#text';
-        $nameMessageDescriptionText="$nameMessageDescriptionText1 $nameMessageDescriptionText2";
+        #$nameMessageDescriptionText="$nameMessageDescriptionText1 $nameMessageDescriptionText2";
+        $nameMessageDescriptionText=$xml.'xml-report'.'issue-group'.item[$i].'variant-group'.item.'issue-information'.'method-signature'.'#text';
         $callingMethod=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Calling Method:'}).value.Replace('\','\\');
         $sourceFile=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Source File:'}).value.Replace('\','\\');
         $fileLineLocation=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Location:'}).value.Replace('\','\\');
