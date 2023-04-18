@@ -17,7 +17,7 @@ write-host "======== Step: Converting ASE SAST XML to Gitlab JSON ========"
 Expand-Archive .\scan_report.zip
 cd .\scan_report\
 # Preparing to convert from ASE XML to Gitlab Json format
-$header="{`"version`":`"15.0.4`",`"vulnerabilities`":[";
+$header="{`"version`":`"14.0.4`",`"vulnerabilities`":[";
 echo $header | Out-File -Append -NonewLine .\gl-sast-report.json;
 # Load list of ase xml files
 $files=$(Get-Item -Path *.xml);
