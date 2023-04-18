@@ -104,7 +104,7 @@ $dastReport = $dastReport.SubString(0,$dastReport.Length-1) | Out-File -NonewLin
 # Extract date from ASE XML and add into gl-dast-report.json
 $reportDateTime=$xml.'xml-report'.layout.'report-date-and-time'.Replace('/','-').Replace(' ','T');
 # Finish gl-dast-report.json
-$footer="],`"analyzer`":{`"id`":`"appscan_standard`",`"name`":`"appscan_standard`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"scanner`":{`"id`":`"dast`",`"name`":`"Find Security Issues`",`"url`":`"https://help.hcltechsw.com/appscan/Standard/10.0.7/topics/home.html`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.0.7`"},`"type`":`"dast`",`"start_time`":`"$reportDateTime`",`"end_time`":`"$reportDateTime`",`"status`":`"success`"}}" | Out-File -Append -NonewLine .\gl-dast-report.json;
+$footer="],`"analyzer`":{`"id`":`"appscan_standard`",`"name`":`"appscan_standard`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.2.0`"},`"scanner`":{`"id`":`"dast`",`"name`":`"Find Security Issues`",`"url`":`"https://help.hcltechsw.com/appscan/Standard/10.2.0/topics/home.html`",`"vendor`":{`"name`":`"HCL`"},`"version`":`"10.2.0`"},`"type`":`"dast`",`"start_time`":`"$reportDateTime`",`"end_time`":`"$reportDateTime`",`"status`":`"success`"}}" | Out-File -Append -NonewLine .\gl-dast-report.json;
 if ($xml.'xml-report'.'issue-group'.item.count -eq 0){
   clear-content .\gl-dast-report.json;
 }
