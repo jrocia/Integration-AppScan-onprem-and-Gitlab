@@ -32,13 +32,13 @@ ForEach ($file in $files){
       $nameMessageDescriptionText1=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).causes.ref}).'#text';
       $nameMessageDescriptionText2=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).causes.ref}).'#text';
       $nameMessageDescriptionText="$nameMessageDescriptionText1. $nameMessageDescriptionText2."
-      $callingMethod=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[25].value.Replace('\','\\')
-      $sourceFile=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[46].value.Replace('\','\\')
-      $fileLineLocation=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[5].value.Replace('\','\\')
-      $sourceLine=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[37].value
-      $sevValue=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[9].value.Replace('Information','Info').Replace('Use CVSS','Unknown');
-      $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value)";
-      $appscanId=$xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute[4].value;
+      $callingMethod=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Calling Method:'}).value.Replace('\','\\');
+      $sourceFile=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Source File:'}).value.Replace('\','\\');
+      $fileLineLocation=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Location:'}).value.Replace('\','\\');
+      $sourceLine=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Line:'}).value;
+      $sevValue=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Severity Value:'}).value.Replace('Information','Info').Replace('Use CVSS','Unknown');
+      $appscanId=($xml.'xml-report'.'issue-group'.item.'attributes-group'.attribute | Where-Object{$_.name -eq 'Id:'}).value;
+      $cveValue="$(Get-Random)"+"appscanid"+"$appscanId";
       $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"sast`",`"name`":`"$nameMessageDescriptionCode`",`"message`":`"$nameMessageDescriptionValue in $fileLineLocation`",`"description`":`"$nameMessageDescriptionText`",`"cve`":`"$cveValue`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_source`",`"name`":`"HCL AppScan Source`"},`"location`":{`"file`":`" $sourceFile`",`"start_line`":$sourceLine,`"class`":`"$callingMethod`",`"method`":`"Appscan_Report_Id_$appscanId`"},`"identifiers`":[{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"ASE: $nameMessageDescriptionCode`",`"value`":`"appscan_source`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"},{`"type`":`"cwe`",`"name`":`"CWE-699`",`"value`":`"699`",`"url`":`"https://cwe.mitre.org/data/definitions/699.html`"}]}," | Out-File -Append -NonewLine .\gl-sast-report.json;
     }
     else{
@@ -50,14 +50,14 @@ ForEach ($file in $files){
         $nameMessageDescriptionValue=($xml.'xml-report'.'issue-type-group'.item | Where-Object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).name.Replace('"','');
         $nameMessageDescriptionText1=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item.'issue-type'.ref}).causes.ref}).'#text';
         $nameMessageDescriptionText2=($xml.'xml-report'.'cause-group'.item | where-object {$_.id -eq ($xml.'xml-report'.'issue-type-group'.item | where-object {$_.id -eq $xml.'xml-report'.'issue-group'.item[$i].'issue-type'.ref}).causes.ref}).'#text';
-        $nameMessageDescriptionText="$nameMessageDescriptionText1 $nameMessageDescriptionText2"
-        $callingMethod=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[25].value.Replace('\','\\')
-        $sourceFile=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[46].value.Replace('\','\\')
-        $fileLineLocation=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[5].value.Replace('\','\\')
-        $sourceLine=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[37].value
-        $sevValue=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[9].value.Replace('Information','Info').Replace('Use CVSS','Unknown');
-        $cveValue="$(Get-Random)"+"appscanid"+"$($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value)";
-        $appscanId=$xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute[4].value;
+        $nameMessageDescriptionText="$nameMessageDescriptionText1 $nameMessageDescriptionText2";
+        $callingMethod=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Calling Method:'}).value.Replace('\','\\');
+        $sourceFile=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Source File:'}).value.Replace('\','\\');
+        $fileLineLocation=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Location:'}).value.Replace('\','\\');
+        $sourceLine=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Line:'}).value;
+        $sevValue=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Severity Value:'}).value.Replace('Information','Info').Replace('Use CVSS','Unknown');
+        $appscanId=($xml.'xml-report'.'issue-group'.item[$i].'attributes-group'.attribute | Where-Object{$_.name -eq 'Id:'}).value;
+        $cveValue="$(Get-Random)"+"appscanid"+"$appscanId";
         $idIssues="{`"id`":`"$([guid]::NewGuid().Guid)`",`"category`":`"sast`",`"name`":`"$nameMessageDescriptionCode`",`"message`":`"$nameMessageDescriptionValue in $fileLineLocation`",`"description`":`"$nameMessageDescriptionText`",`"cve`":`"$cveValue`",`"severity`":`"$sevValue`",`"confidence`": `"Unknown`",`"scanner`":{`"id`":`"appscan_source`",`"name`":`"HCL AppScan Source`"},`"location`":{`"file`":`" $sourceFile`",`"start_line`":$sourceLine,`"class`":`"$callingMethod`",`"method`":`"Appscan_Report_Id_$appscanId`"},`"identifiers`":[{`"type`":`"$nameMessageDescriptionCode`",`"name`":`"ASE: $nameMessageDescriptionCode`",`"value`":`"appscan_source`",`"url`":`"https://$aseHostname`:9443/ase/api/issuetypes/howtofix?issueTypeId=wf-security-check-$nameMessageDescriptionCode`"},{`"type`":`"cwe`",`"name`":`"CWE-699`",`"value`":`"699`",`"url`":`"https://cwe.mitre.org/data/definitions/699.html`"}]}," | Out-File -Append -NonewLine .\gl-sast-report.json;
       }
     }
