@@ -26,10 +26,10 @@ variables:
 # artifactName: xxxxxxxxxxxxx.war
 
 stages:
-- scan
+- scan-sast
 
-scan-job:
-  stage: scan
+scan-sast-job:
+  stage: scan-sast
   script:
   - Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/Integration-AppScan-onprem-and-Gitlab/main/scripts/appscanase_create_application_ase.ps1 -OutFile appscanase_create_application_ase.ps1
   - .\appscanase_create_application_ase.ps1
