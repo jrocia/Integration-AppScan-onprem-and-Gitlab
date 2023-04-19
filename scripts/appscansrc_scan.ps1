@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-write-host "======== Step: Running scan in $artifactName ========"
+write-host "======== Step: Running scan SAST ========"
 # Running AppScan Source scan through AppScanSrcCli
 AppScanSrcCli scr script.scan
 # copy $artifactFolder\$artifactName.ozasmt .
