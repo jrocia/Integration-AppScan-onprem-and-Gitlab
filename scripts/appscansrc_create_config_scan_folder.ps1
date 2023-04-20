@@ -14,14 +14,14 @@
 
 write-host "======== Step: Creating a config scan folder ========"
 # Creating Appscan Source script file. It is used with AppScanSrcCli to run scans reading folder content and selecting automatically the language (Open Folder command).
-write-host "Checking Compressed Compiled Files in Folder $compiledArtifactFolder."
+write-host "Checking compressed compiled files in folder $compiledArtifactFolder."
 if ($compiledArtifactFolder -ne "none"){
   $content=Get-ChildItem -Path $compiledArtifactFolder -filter "*.zip"
   if ($content){
-    write-host "Identified zip file"
+    write-host "There is a zip file."
     Expand-Archive -Path $content -DestinationPath $compiledArtifactFolder
   }else{
-    write-host "Unidentified zip file"
+    write-host "There is no zip file."
   }
   write-output "login_file $aseHostname `"$aseToken`" -acceptssl" > script.scan
   write-output "RUNAS AUTO" >> script.scan
