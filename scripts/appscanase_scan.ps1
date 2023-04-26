@@ -21,7 +21,7 @@ $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId
 $aseAppId=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/search?searchTerm=$aseAppName" -SkipCertificateCheck | ConvertFrom-Json).id;
 write-host $sessionId
 # Compose scanName with Gitlab repository name + Gitlab job Id 
-$scanName="$CI_PROJECT_NAME-$CI_JOB_ID";
+$scanName="$aseAppName-$CI_JOB_ID";
 write-host $scanName;
 # Creating a new job in AppScan Enterprise
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
