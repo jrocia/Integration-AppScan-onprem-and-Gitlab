@@ -13,7 +13,6 @@
 # limitations under the License.
 
 write-host "======== Step: Checking application in AppScan Enterprise ========"
-Write-host "teste: $Env:aseHostname"
 # ASE authentication
 $sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
 # Looking for $aseAppName into ASE
