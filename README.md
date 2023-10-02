@@ -1,4 +1,4 @@
-# Integration AppScan Onprem and Gitlab<br>
+# Integration: AppScan Onprem and Gitlab<br>
 
 This integration was based on previous work. Take a look into previous work to understand Requirements:<br>
 https://github.com/jrocia/Integration-AppScanSTD-and-Gitlab<br>
