@@ -40,7 +40,7 @@ write-host "The URL Target was updated in Job Id. It was updated to $url";
 # Checking is there is login file in the repository
 if ((Test-Path -Path $loginDastConfig -PathType Leaf)){
   write-host "$loginDastConfig exists. So it will be uploaded to the Job and will be used to Authenticate in the URL target during tests.";
-  Invoke-WebRequest -Method Post -Form @{uploadedfile=Get-Item -Path "$loginDastConfig"} -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}  -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/login" -SkipCertificateCheck | Out-Null;
+  Invoke-WebRequest -Method Post -Form @{uploadedfile=[System.IO.File]::ReadAllBytes($loginDastConfig)} -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}  -Uri "https://$aseHostname`:9443/ase/api/jobs/$jobId/dastconfig/updatetraffic/login" -SkipCertificateCheck | Out-Null;
   }
 else{
   write-host "Login file not identified."
