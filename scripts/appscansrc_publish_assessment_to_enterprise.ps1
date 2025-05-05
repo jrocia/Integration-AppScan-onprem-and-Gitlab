@@ -13,6 +13,22 @@
 # limitations under the License.
 
 write-host "======== Step: Publishing Assessment in ASE ========"
+# Get the directory where the script is being executed
+$scriptDir = $CI_PROJECT_DIR
+# Find the first .ozasmt file in the root of the directory
+$inputFile = Get-ChildItem -Path $scriptDir -Filter *.ozasmt | Select-Object -First 1
+if ($null -eq $inputFile) {
+    Write-Error "No .ozasmt file found in directory $scriptDir"
+    exit 1
+}
+# Regular expression to match the variable path segment
+$regex = '\\[bB]uilds\\[^\\]+\\\d+\\'
+# Read, process, and overwrite the original file
+(Get-Content $inputFile.FullName) | ForEach-Object {
+    $_ -replace $regex, '\'
+} | Set-Content $inputFile.FullName
+Write-Host "File successfully updated: $($inputFile.Name)"
+
 # Creating script to get ozasmt scan result
 write-output "login_file $aseHostname $aseToken -acceptssl" > scriptpase.scan
 write-output "pase $CI_PROJECT_DIR\$aseAppName-$CI_JOB_ID.ozasmt -aseapplication $aseAppName -name $aseAppName-$CI_JOB_ID" >> scriptpase.scan
